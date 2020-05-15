@@ -12,13 +12,19 @@ if (isset($_GET["key"]) and $_GET["key"] == 1) {
 
   if (move_uploaded_file($_FILES["img_user"]["tmp_name"], "../img/" . $rename)) {
 
-    $sql = "INSERT INTO member (user, pass, img_user, status_member, email_user,phone_user) 
-        VALUES('" . $_POST["user"] . "','" . $_POST["pass"] . "','" . $rename . "','" . $_POST["status_member"] . "','" . $_POST["email_user"] . "','" . $_POST["phone_user"] . "')";
+    $sql = "INSERT INTO member (user, pass, img_user, status_member, email_user,phone_user, room) 
+        VALUES('" . $_POST["user"] . "','" . $_POST["pass"] . "','" . $rename . "','" . $_POST["status_member"] . "','" . $_POST["email_user"] . "','" . $_POST["phone_user"] . "','" . $_POST["room_member"] . "')";
 
     if ($conn->query($sql) === TRUE) {
     } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
+     
     }
+    
+    $sql_up_room = "UPDATE room SET status_room='2' WHERE id_room='" . $_POST["room_member"] . "'";
+
+if ($conn->query($sql_up_room) === TRUE) {
+
+}
   }
 
 
@@ -345,7 +351,7 @@ if (isset($_GET["key"]) and $_GET["key"] == 1) {
                           <option value="-">- </option>
                      
                               <?php
-                                          $status_sql = "SELECT * FROM status_member";
+                                          $status_sql = "SELECT * FROM status_mem";
                                           $status_result = $conn->query($status_sql);
 
                                           if ($status_result->num_rows > 0) {
@@ -353,7 +359,27 @@ if (isset($_GET["key"]) and $_GET["key"] == 1) {
                                             while ($status_row = $status_result->fetch_assoc()) {
 
                                           ?> 
-                                <option value="<?php echo $status_row["id"]; ?>"><?php echo $status_row["name_status"]; ?>
+                                <option value="<?php echo $status_row["id_status"]; ?>"><?php echo $status_row["name_status"]; ?>
+                            </option>
+                        <?php }
+                                          } ?>
+                          </select>
+                  </div>
+                  <div class="col-md-6 form-group">
+                    <label for="exampleInputPassword1">ห้อง</label>
+                    <select class="form-control" id="room_member" name="room_member">
+                          <option value="-">- </option>
+                     
+                              <?php
+                                          $status_sql = "SELECT * FROM room where status_room = '1'";
+                                          $status_result = $conn->query($status_sql);
+
+                                          if ($status_result->num_rows > 0) {
+                                            $i = 1;
+                                            while ($status_row = $status_result->fetch_assoc()) {
+
+                                          ?> 
+                                <option value="<?php echo $status_row["id_room"]; ?>"><?php echo $status_row["name_room"]; ?>
                             </option>
                         <?php }
                                           } ?>

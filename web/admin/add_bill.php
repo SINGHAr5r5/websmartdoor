@@ -327,9 +327,7 @@ VALUES ('" . $_GET["room"] . "','$bill_old','" . $_POST["electricity_bill"] . "'
                                         if ($result_seletc_bill->num_rows > 0) {
                                             // output data of each row
                                             while ($row = $result_seletc_bill->fetch_assoc()) {
-
                                         ?>
-
                                                 <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
                                                     <div class="card bg-light col-12">
                                                         <form role="form" name="member" action="add_bill.php?key=up_bill&bill_ids=<?php echo $row["id_bill"]; ?>" method="POST">
@@ -340,7 +338,6 @@ VALUES ('" . $_GET["room"] . "','$bill_old','" . $_POST["electricity_bill"] . "'
 
                                                                 </div>
                                                             </div>
-
                                                             <div class="card-body pt-0">
 
                                                                 <div class="row">
@@ -348,8 +345,6 @@ VALUES ('" . $_GET["room"] . "','$bill_old','" . $_POST["electricity_bill"] . "'
                                                                     <div class="col-12">
 
                                                                         <div class="input-group mb-3">
-
-
                                                                             <input type="text" class="form-control" name="electricity_bill_old" id="electricity_bill_old" style="letter-spacing: 5px;text-align:center;" value="<?php echo $row_seletc_room["mitor"]; ?>" disabled><input class="form-control" name="electricity_bill" id="electricity_bill" style="letter-spacing: 5px;text-align:center;" placeholder="ค่าไฟฟ้า/หน่วย" value="<?php echo $row["electricity_bill"]; ?>" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="8">
 
                                                                             <div class="input-group-append">
@@ -358,9 +353,6 @@ VALUES ('" . $_GET["room"] . "','$bill_old','" . $_POST["electricity_bill"] . "'
                                                                                     </svg></span>
                                                                             </div>
                                                                         </div>
-
-
-
                                                                         <div class="input-group">
                                                                             <div class="input-group-prepend">
                                                                                 <span class="input-group-text"><svg class="bi bi-droplet-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -372,17 +364,11 @@ VALUES ('" . $_GET["room"] . "','$bill_old','" . $_POST["electricity_bill"] . "'
                                                                                 <span class="input-group-text">.00</span>
                                                                             </div>
                                                                         </div>
-
-
-
-
                                                                     </div>
-
                                                                 </div>
                                                             </div>
                                                             <div class="card-footer">
-                                                                <div class="text-right">
-
+                                                                <div class="text-right"></div>
                                                                     <button class="btn btn-sm btn-primary">
                                                                         <svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                                             <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 011.414 0l2 2a1 1 0 010 1.414l-9 9a1 1 0 01-.39.242l-3 1a1 1 0 01-1.266-1.265l1-3a1 1 0 01.242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z" clip-rule="evenodd" />

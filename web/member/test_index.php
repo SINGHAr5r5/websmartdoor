@@ -459,7 +459,7 @@ echo '<img src="' . $PromptPayQR->generate() . '" />';
                           <option value="-">เลือกเดือนที่ชำระ</option>
                      
                               <?php
-                                          $status_sql = "SELECT * FROM add_bill where member_bill='".$_SESSION["id_session"]."' AND status_bill='' ";
+                                          $status_sql = "SELECT * FROM add_bill where member_bill='".$_SESSION["id_session"]."' AND status_bill='1' ";
                                           $status_result = $conn->query($status_sql);
 
                                           if ($status_result->num_rows > 0) {

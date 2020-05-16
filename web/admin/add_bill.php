@@ -11,7 +11,7 @@ if (isset($_GET["key"]) and $_GET["key"] == 'add_bill') {
     $sum_bill = $_POST["electricity_bill"] - $_GET["bill_old"];
 
     $sql = "INSERT INTO add_bill (room,bill_old,electricity_bill,mitor,water_bill,member_bill,date_add,date_m,date_pay,status_bill )
-VALUES ('" . $_GET["room"] . "','$bill_old','" . $_POST["electricity_bill"] . "','$sum_bill','" . $_POST["water_bill"] . "','" . $_GET["user_room"] . "','$date_add','$date_m','','')";
+VALUES ('" . $_GET["room"] . "','$bill_old','" . $_POST["electricity_bill"] . "','$sum_bill','" . $_POST["water_bill"] . "','" . $_GET["user_room"] . "','$date_add','$date_m','','1')";
     if ($conn->query($sql) === TRUE) {
         // echo "New record created successfully";
     } else {

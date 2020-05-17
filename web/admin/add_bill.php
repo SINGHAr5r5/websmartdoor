@@ -26,6 +26,7 @@ VALUES ('" . $_GET["room"] . "','$bill_old','" . $_POST["electricity_bill"] . "'
     } else {
         echo "Error updating record: " . $conn->error;
     }
+    
 }
 
 

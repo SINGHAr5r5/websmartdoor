@@ -12,8 +12,8 @@ try {
 
     if (move_uploaded_file($_FILES["imgInp"]["tmp_name"], "../img/send_money/" . $rename)) {
 
-      $sql = "INSERT INTO send_money (month_send,img_send)
-VALUES ('" . $_POST["input_name"] . "' , '" . $rename . "')";
+      $sql = "INSERT INTO send_money (month_send,img_send,status_send)
+VALUES ('" . $_POST["input_name"] . "' , '" . $rename . "','1')";
 
       if ($conn->query($sql) === TRUE) {
 
@@ -21,7 +21,7 @@ VALUES ('" . $_POST["input_name"] . "' , '" . $rename . "')";
         echo "Error: " . $sql . "<br>" . $conn->error;
       }
     }
-	$sql_bill = "UPDATE add_bill SET status_bill='1' WHERE id_bill ='" . $_POST["input_name"] . "' ";
+	$sql_bill = "UPDATE add_bill SET status_bill='2' WHERE id_bill ='" . $_POST["input_name"] . "' ";
 
 	if ($conn->query($sql_bill) === TRUE) {
 	  
@@ -131,10 +131,10 @@ text-align: center;
 						<li><a href="#" data-nav-section="about">ข้อมูลส่วนตัว</a></li>
 						<li><a href="#" data-nav-section="services">ค่าใช้จ่าย</a></li>
 						<li><a href="#" data-nav-section="skills">หลักฐานการชำระเงิน</a></li>
-						<li><a href="#" data-nav-section="education">Education</a></li>
-						<li><a href="#" data-nav-section="experience">Experience</a></li>
+						<li><a href="#" data-nav-section="education">ข้อปฏิบัติการพักอาศัย</a></li>
+						<!-- <li><a href="#" data-nav-section="experience">Experience</a></li>
 						<li><a href="#" data-nav-section="work">Work</a></li>
-						<li><a href="#" data-nav-section="blog">Blog</a></li>
+						<li><a href="#" data-nav-section="blog">Blog</a></li> -->
 						<li><a href="#" data-nav-section="contact">Contact</a></li>
 						
 					</ul>
@@ -505,8 +505,8 @@ echo '<img src="' . $PromptPayQR->generate() . '" />';
 				<div class="colorlib-narrow-content">
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-							<span class="heading-meta">Education</span>
-							<h2 class="colorlib-heading animate-box">Education</h2>
+							<span class="heading-meta">ข้อปฏิบัติการพักอาศัย</span>
+							<h2 class="colorlib-heading animate-box">ข้อปฏิบัติการพักอาศัย</h2>
 						</div>
 					</div>
 					<div class="row">
@@ -516,18 +516,36 @@ echo '<img src="' . $PromptPayQR->generate() . '" />';
 									<div class="panel panel-default">
 									    <div class="panel-heading" role="tab" id="headingOne">
 									        <h4 class="panel-title">
-									            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Master Degree Graphic Design
+									            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">กฎระเบียบ
 									            </a>
 									        </h4>
 									    </div>
 									    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
 									         <div class="panel-body">
 									            <div class="row">
-										      		<div class="col-md-6">
-										      			<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
+										      		<div class="col-md-12">
+										      			<p>1.ห้ามส่งเสียงดังสร้างความรบกวน ก่อความรำคาญให้กับผู้พักอาศัยในหอพัก และห้ามทะเลาะวิวาทภายในหอพัก</p>
+														  <p>2.ห้ามลักขโมยทรัพย์สิน หรือสิ่งของใดๆ ภายในหอพักหรือของผู้ที่พักอาศัยในหอพัก</p>
+														  <p>3.ห้ามเสพอบายมุขภายในหอพัก เช่น บุหรี่ สุรา ยาเสพติด การพนัน ฯลฯ</p>
+														  <p>4.ห้ามนำนักศึกษาหรือบุคคลภายนอกเข้าพักอาศัยในหอพักโดยไม่ได้รับอนุญาตจากอาจารย์ที่ปรึกษาหอพักและสำนักงานหอพักโดยเด็ดขาด หากฝ่าฝืนจะถูกตัดสิทธิการเข้าพักอาศัยในหอพัก และถูกยึดเงินค่าประกันหอพัก</p>
+														  <p>5.ไม่อนุญาตให้นำนักศึกษาหรือบุคคลภายนอกขึ้นหอพัก</p>
+														  <p>6.นักศึกษาหรือบุคคลภายนอกที่เข้าพักชั่วคราวจะต้องออกจากหอพักไม่เกินเวลา 12.00 น. ของวันถัดไป</p>
+														  <p>7.นักศึกษาต้องรักษาความสะอาดห้องพัก ของใช้ส่วนรวม และไม่วางสิ่งของไว้หน้าห้องพัก</p>
+														  <p>8.ห้ามครอบครองวัตถุอันตราย อันจะนำมาซึ่งความเสียหายและเกิดอันตรายแก่ทรัพย์สินของหอพัก และผู้อาศัยในหอพัก เช่น อาวุธ วัตถุระเบิด แก๊ส เชื้อเพลิง ฯลฯ</p>
+														  <p>9.ห้ามทำลายทรัพย์สินหอพัก เช่น รื้อถอน ดัดแปลง ต่อเติม เคลื่อนย้ายอุปกรณ์ ฯลฯ  กรณีเจาะ-ตอกตะปูฝาผนัง ประตู เพดาน ฯลฯ จะถูกปรับจุดละ 300 บาท และหากทำทรัพย์สินเสียหายจะต้องชำระค่าปรับตามราคาของทรัพย์สินนั้น</p>
+														  <p>10.ห้ามโยน ขว้างปา หรือทิ้งสิ่งของใดลงมาจากห้องพัก</p>
+														  <p>11.ห้ามนำอุปกรณ์เครื่องใช้ไฟฟ้าที่ก่อให้เกิดอันตรายได้ง่ายมาใช้ในห้องพัก เช่น ขดลวดต้มน้ำ เตา ไฟฟ้า (Hot Plate) ฯลฯ</p>
+														  <p>12.ห้ามประกอบอาหารในหอพัก และห้ามนำภาชนะของร้านค้าขึ้นหอพัก</p>
+														  <p>13.ห้ามตากผ้าและวางพาดสิ่งของต่างๆ บนขอบระเบียงหลังห้องพัก</p>
+														  <p>14.ห้ามนำสัตว์เลี้ยงทุกชนิดมาเลี้ยงไว้ในบริเวณหอพัก / ห้องพัก</p>
+														  <p>15.ห้ามนักศึกษานอนค้างคืนภายนอกหอพัก ก่อนได้รับอนุญาตจากอาจารย์ที่ปรึกษาหอพัก ทั้งนี้ นักศึกษาชายและหญิง
+จะต้องกลับเข้าหอพักภายในเวลา 24.00 น.</p>
+														  <p>16.นักศึกษาจะต้องไม่ฝ่าฝืนคำสั่งและคำตักเตือนของอาจารย์ที่ปรึกษาหอพัก กรรมการนักศึกษาหอพัก และเจ้าหน้าที่หอพัก รวมทั้งจะต้องไม่ประพฤติผิดวินัยนักศึกษาตามข้อบังคับของมหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี ว่าด้วยวินัย
+นักศึกษา</p>
+														  <p>17.นักศึกษาต้องไม่ฝ่าฝืนกฎระเบียบอื่นๆ ของหอพัก</p>
 										      		</div>
 										      		<div class="col-md-6">
-										      			<p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+										      			<p></p>
 										      		</div>
 										      	</div>
 									         </div>
@@ -536,7 +554,7 @@ echo '<img src="' . $PromptPayQR->generate() . '" />';
 									<div class="panel panel-default">
 									    <div class="panel-heading" role="tab" id="headingTwo">
 									        <h4 class="panel-title">
-									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Bachelor Degree of Computer Science
+									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">สัญญาการเช่าหอพัก
 									            </a>
 									        </h4>
 									    </div>
@@ -553,7 +571,7 @@ echo '<img src="' . $PromptPayQR->generate() . '" />';
 									<div class="panel panel-default">
 									    <div class="panel-heading" role="tab" id="headingThree">
 									        <h4 class="panel-title">
-									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Diploma in Information Technology
+									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">ติดต่อแจ้งเหตุ
 									            </a>
 									        </h4>
 									    </div>
@@ -598,7 +616,7 @@ echo '<img src="' . $PromptPayQR->generate() . '" />';
 				</div>
 			</section>
 
-			<section class="colorlib-experience" data-section="experience">
+			<!-- <section class="colorlib-experience" data-section="experience">
 				<div class="colorlib-narrow-content">
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
@@ -682,8 +700,8 @@ echo '<img src="' . $PromptPayQR->generate() . '" />';
 					   </div>
 				   </div>
 				</div>
-			</section>
-
+			</section> -->
+<!-- 
 			<section class="colorlib-work" data-section="work">
 				<div class="colorlib-narrow-content">
 					<div class="row">
@@ -795,9 +813,9 @@ echo '<img src="' . $PromptPayQR->generate() . '" />';
 						</div>
 					</div>
 				</div>
-			</section>
+			</section> -->
 
-			<section class="colorlib-blog" data-section="blog">
+			<!-- <section class="colorlib-blog" data-section="blog">
 				<div class="colorlib-narrow-content">
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
@@ -843,7 +861,7 @@ echo '<img src="' . $PromptPayQR->generate() . '" />';
 						</div>
 					</div>
 				</div>
-			</section>
+			</section> -->
 
 			<section class="colorlib-contact" data-section="contact">
 				<div class="colorlib-narrow-content">
@@ -956,4 +974,3 @@ function showDivs(n) {
 
 	</body>
 </html>
-

@@ -12,15 +12,15 @@ if (isset($_GET["key"]) and $_GET["key"] == 1) {
 
   if (move_uploaded_file($_FILES["img_user"]["tmp_name"], "../img/" . $rename)) {
 
-    $sql = "INSERT INTO member (user, pass, img_user, status_member, email_user,phone_user, room) 
-        VALUES('" . $_POST["user"] . "','" . $_POST["pass"] . "','" . $rename . "','" . $_POST["status_member"] . "','" . $_POST["email_user"] . "','" . $_POST["phone_user"] . "','" . $_POST["room_member"] . "')";
+    $sql = "INSERT INTO member (user,address_user, pass, img_user, status_member, email_user,phone_user, room) 
+        VALUES('" . $_POST["user"] . "','" . $_POST["address_user"] . "','" . $_POST["pass"] . "','" . $rename . "','" . $_POST["status_member"] . "','" . $_POST["email_user"] . "','" . $_POST["phone_user"] . "','" . $_POST["room_member"] . "')";
 
     if ($conn->query($sql) === TRUE) {
     } else {
      
     }
     
-    $sql_up_room = "UPDATE room SET status_room='2' WHERE id_room='" . $_POST["room_member"] . "'";
+    $sql_up_room = "UPDATE room SET status_room='2' WHERE name_room='" . $_POST["room_member"] . "'";
 
 if ($conn->query($sql_up_room) === TRUE) {
 
@@ -333,6 +333,10 @@ if ($conn->query($sql_up_room) === TRUE) {
                     <input type="text" class="form-control" id="user" name="user" placeholder="กรอกข้อมูลตรงนี้">
                   </div>
                   <div class="form-group">
+                    <label for="exampleInputEmail1">ที่อยู่</label>
+                    <input type="text" class="form-control" id="address_user" name="address_user" placeholder="กรอกข้อมูลตรงนี้">
+                  </div>
+                  <div class="form-group">
                     <label for="exampleInputPassword1">อีเมล</label>
                     <input type="text" class="form-control" id="email_user" name="email_user" placeholder="กรอกข้อมูลตรงนี้">
                   </div>
@@ -379,7 +383,7 @@ if ($conn->query($sql_up_room) === TRUE) {
                                             while ($status_row = $status_result->fetch_assoc()) {
 
                                           ?> 
-                                <option value="<?php echo $status_row["id_room"]; ?>"><?php echo $status_row["name_room"]; ?>
+                                <option value="<?php echo $status_row["name_room"]; ?>"><?php echo $status_row["name_room"]; ?>
                             </option>
                         <?php }
                                           } ?>

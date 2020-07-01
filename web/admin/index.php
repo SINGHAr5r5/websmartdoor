@@ -53,6 +53,11 @@ if (isset($_GET["key"]) and $_GET["key"] == 1) {
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <style>
+  .t2 {
+    float: right;
+}
+  </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -290,7 +295,7 @@ if (isset($_GET["key"]) and $_GET["key"] == 1) {
         <div class="card-body pb-0">
           <div class="row d-flex align-items-stretch">
           <?php
-                                          $member_sql = "SELECT * FROM member INNER JOIN status_mem ON member.status_member=status_mem.id_status ";
+                                          $member_sql = "SELECT * FROM member INNER JOIN status_mem ON member.status_member=status_mem.id_status where status_member='2'";
                                           $member_result = $conn->query($member_sql);
 
                                           if ($member_result->num_rows > 0) {
@@ -298,18 +303,23 @@ if (isset($_GET["key"]) and $_GET["key"] == 1) {
                                             while ($member_row = $member_result->fetch_assoc()) {
 
                                           ?> 
-            <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
+            <div class="col-12 col-sm-6 col-md-4">
               <div class="card bg-light">
                 <div class="card-header text-muted border-bottom-0">
+                <div class="col-12">
                 <?php echo $member_row["name_status"]; ?>
+                <div class="t2"><h2>ห้อง <?php echo $member_row["room"]; ?></h2> </div>
+                
+                </div>
+                
                 </div>
                 <div class="card-body pt-0">
                   <div class="row">
                     <div class="col-7">
                       <h2 class="lead"><b><?php echo $member_row["user"]; ?></b></h2>
-                      <p class="text-muted text-sm"><b>About: </b> Web Designer / UX / Graphic Artist / Coffee Lover </p>
+                      <p class="text-muted text-sm"><b>Email: </b> <?php echo $member_row["email_user"]; ?></p>
                       <ul class="ml-4 mb-0 fa-ul text-muted">
-                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Address: Demo Street 123, Demo City 04312, NJ</li>
+                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> <?php echo $member_row["address_user"]; ?></li>
                         <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone #: <?php echo $member_row["phone_user"]; ?></li>
                       </ul>
                     </div>

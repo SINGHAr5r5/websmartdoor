@@ -369,7 +369,7 @@ VALUES ('" . $_GET["room"] . "','$bill_old','" . $_POST["electricity_bill"] . "'
                                                                 </div>
                                                             </div>
                                                             <div class="card-footer">
-                                                                <div class="text-right"></div>
+                                                                <div class="text-right">
                                                                     <button class="btn btn-sm btn-primary">
                                                                         <svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                                             <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 011.414 0l2 2a1 1 0 010 1.414l-9 9a1 1 0 01-.39.242l-3 1a1 1 0 01-1.266-1.265l1-3a1 1 0 01.242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z" clip-rule="evenodd" />

@@ -310,10 +310,10 @@ VALUES ('" . $_GET["room"] . "','$bill_old','" . $_POST["electricity_bill"] . "'
                         <div class="card-body pb-0">
                             <div class="row d-flex align-items-stretch">
                                 <?php
-                                $sql_seletc_room = "SELECT * FROM member INNER JOIN room ON member.room=room.id_room  order by room ASC";
+                                $sql_seletc_room = "SELECT * FROM member INNER JOIN room ON member.room=room.name_room order by room ASC";
                                 $result_seletc_room = $conn->query($sql_seletc_room);
 
-                                if ($result_seletc_room->num_rows > 0) {
+                                if ($result_seletc_room->num_rows > 0) { 
                                     // output data of each row
                                     while ($row_seletc_room = $result_seletc_room->fetch_assoc()) {
 

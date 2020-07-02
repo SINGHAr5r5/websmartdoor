@@ -1,6 +1,24 @@
 <?php
 session_start();
 require_once('../connect.php');
+if(isset($_GET["id_add"]) and $_GET["id_add"] !=''){
+   $sql = "UPDATE send_money SET status_send='2' WHERE month_send='".$_GET["id_add"]."'";
+
+if ($conn->query($sql) === TRUE) {
+  
+}
+}else if (isset($_GET["id_del"]) and $_GET["id_del"] !='') {
+$sql = "UPDATE send_money SET status_send='3' WHERE month_send='".$_GET["id_del"]."'";
+
+if ($conn->query($sql) === TRUE) {
+  $sql = "UPDATE add_bill SET status_bill='1' WHERE id_bill ='".$_GET["id_del"]."'";
+if ($conn->query($sql) === TRUE) {
+ 
+} 
+}
+
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -295,10 +313,12 @@ require_once('../connect.php');
                       <th>
                           จำนวนเงิน
                       </th>
-                      <th style="width: 30%" class="text-center">
+                      <th style="width: 50%" class="text-center">
                       หลักฐานการโอนเงิน
                       </th>
-                      <th style="width: 20%">
+                      <th style="width: 8%">
+                      </th>
+                      <th style="width: 8%">
                       </th>
                   </tr>
               </thead>
@@ -360,22 +380,19 @@ $end_total=$total+$row_pay["water_bill"]; echo $end_total; ?> บาท </p>
 " >
         </div>
                       </td>
-                      <td class="project-actions text-right">
-                          <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-folder">
-                              </i>
-                            555
-                          </a>
-                          <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt">
-                              </i>
-                              อนุมัติ
-                          </a>
-                          <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash">
-                              </i>
-                              ไม่อนุมัติ
-                          </a>
+                      <td >
+                          
+                          <form action="approve.php?id_add=<?php echo $row_showbill["month_send"]; ?>" method="post">
+                          <button class="button button3"> อนุมัติ</button>
+                            </form>
+                          
+                      </td>
+                          <td >
+                          
+                          
+                            <form action="approve.php?id_del=<?php echo $row_showbill["month_send"]; ?>" method="post">
+                          <button class="btn btn-danger btn-sm" > ไม่อนุมัติ </button>
+                            </form>
                       </td>
                   </tr>
   <?php } } ?>

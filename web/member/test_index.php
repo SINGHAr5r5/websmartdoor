@@ -3,7 +3,7 @@ session_start();
 require_once('../connect.php');
 try {
   if (isset($_POST["input_name"]) and $_POST["input_name"] != '') {
-
+$date_add = date("Y-m-d");
     $pic_tmp = $_FILES['imgInp']['tmp_name'];  //เอาไฟล์ temporary ไปเก็บที่ตัวแปร $pic_tmp
     $pic_name = $_FILES['imgInp']['name'];    //เอาชื่อไฟล์ ไปเก็บที่ตัวแปร $pic_name
     if ($pic_name <> "") {
@@ -12,8 +12,8 @@ try {
 
     if (move_uploaded_file($_FILES["imgInp"]["tmp_name"], "../img/send_money/" . $rename)) {
 
-      $sql = "INSERT INTO send_money (month_send,img_send,status_send)
-VALUES ('" . $_POST["input_name"] . "' , '" . $rename . "','1')";
+      $sql = "INSERT INTO send_money (user,month_send,date_bill,img_send,status_send)
+VALUES ('".$_SESSION["user_session"]."','" . $_POST["input_name"] . "','$date_add', '" . $rename . "','1')";
 
       if ($conn->query($sql) === TRUE) {
 
@@ -21,7 +21,7 @@ VALUES ('" . $_POST["input_name"] . "' , '" . $rename . "','1')";
         echo "Error: " . $sql . "<br>" . $conn->error;
       }
     }
-	$sql_bill = "UPDATE add_bill SET status_bill='2' WHERE id_bill ='" . $_POST["input_name"] . "' ";
+	$sql_bill = "UPDATE add_bill SET status_bill='2',user='".$_SESSION["user_session"]."',date_pay='$date_add' WHERE id_bill ='" . $_POST["input_name"] . "' ";
 
 	if ($conn->query($sql_bill) === TRUE) {
 	  
@@ -476,6 +476,7 @@ echo '<img src="' . $PromptPayQR->generate() . '" />';
                       </div>
 
                       <div class="form-group">
+						 
                         <label for="exampleInputFile">อัพโหลดรูปภาพหลักฐานการชำระเงิน</label>
                         <div class="input-group">
                           <div class="custom-file">

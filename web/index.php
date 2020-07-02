@@ -16,6 +16,7 @@ if (isset($_GET["chk"]) and $_GET["chk"] == 'login') {
         $_SESSION["pass_session"] = $row["pass"];
         $_SESSION["status_session"] = $row["status_member"];
         $_SESSION["img_session"] = $row["img_user"];
+        $_SESSION["room_session"] = $row["room"];
         if ($_SESSION["status_session"] == '1') {
             Header("Location: admin/index.php");
         } else {

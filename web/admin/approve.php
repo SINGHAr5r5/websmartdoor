@@ -329,36 +329,52 @@ if ($result_showbill->num_rows > 0) {
                       </td>
                       <td>
                           <ul class="list-inline">
-                              <?php echo $row_showbill["date_bill"]; ?>
+                               <?php echo $row_showbill["room"]; ?>
                           </ul>
                       </td>
                       <td class="project_progress">
-                          <div class="progress progress-sm">
-                              <div class="progress-bar bg-green" role="progressbar" aria-volumenow="12" aria-volumemin="0" aria-volumemax="100" style="width: 12%">
-                              </div>
-                          </div>
-                          <small>
-                              12% Complete
-                          </small>
+                       <?php 
+			
+			$sql_pay = "SELECT * FROM add_bill where id_bill='".$row_showbill["month_send"]."'";
+$result_pay = $conn->query($sql_pay);
+
+
+if ($result_pay->num_rows > 0) {
+
+// output data of each row
+while($row_pay = $result_pay->fetch_assoc()) {
+	
+?>  
+<p> <?php 
+$sum=($row_pay["electricity_bill"]-$row_pay["bill_old"]);$total=$sum*5;
+$end_total=$total+$row_pay["water_bill"]; echo $end_total; ?> บาท </p>
+<?php } } ?>
+                          
                       </td>
                       <td class="project-state">
-                          <span class="badge badge-success">Success</span>
+                           
+                           <div class="image">
+          <img src="../img/send_money/<?php echo $row_showbill["img_send"] ?>"style="
+    width: 250px;
+    height: 250px;
+" >
+        </div>
                       </td>
                       <td class="project-actions text-right">
                           <a class="btn btn-primary btn-sm" href="#">
                               <i class="fas fa-folder">
                               </i>
-                              View
+                            555
                           </a>
                           <a class="btn btn-info btn-sm" href="#">
                               <i class="fas fa-pencil-alt">
                               </i>
-                              Edit
+                              อนุมัติ
                           </a>
                           <a class="btn btn-danger btn-sm" href="#">
                               <i class="fas fa-trash">
                               </i>
-                              Delete
+                              ไม่อนุมัติ
                           </a>
                       </td>
                   </tr>

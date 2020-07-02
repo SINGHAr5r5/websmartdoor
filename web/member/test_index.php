@@ -12,8 +12,8 @@ $date_add = date("Y-m-d");
 
     if (move_uploaded_file($_FILES["imgInp"]["tmp_name"], "../img/send_money/" . $rename)) {
 
-      $sql = "INSERT INTO send_money (user,month_send,date_bill,img_send,status_send)
-VALUES ('".$_SESSION["user_session"]."','" . $_POST["input_name"] . "','$date_add', '" . $rename . "','1')";
+      $sql = "INSERT INTO send_money (user,room,month_send,date_bill,img_send,status_send)
+VALUES ('".$_SESSION["user_session"]."','".$_SESSION["room_session"]."','" . $_POST["input_name"] . "','$date_add', '" . $rename . "','1')";
 
       if ($conn->query($sql) === TRUE) {
 

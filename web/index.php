@@ -55,7 +55,10 @@ if (isset($_GET["chk"]) and $_GET["chk"] == 'login') {
 
 <link href='https://fonts.googleapis.com/css?family=Raleway:300,200' rel='stylesheet' type='text/css'><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
 <link rel="stylesheet" href="./style.css">
-
+<style>
+body {
+    background-image: url(img/mansion/stadihome.jpg);
+}</style>
 </head>
 <body>
 <!-- partial:index.partial.html -->

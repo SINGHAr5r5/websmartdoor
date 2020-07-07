@@ -53,6 +53,7 @@ if (isset($_GET["key"]) and $_GET["key"] == 1) {
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
   .t2 {
     float: right;
@@ -95,56 +96,42 @@ if (isset($_GET["key"]) and $_GET["key"] == 1) {
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-comments"></i>
+
           <span class="badge badge-danger navbar-badge">3</span>
         </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        <?php
+         $sql_star = "SELECT * FROM send_money";
+$result_star = $conn->query($sql_star);
+
+if ($result_star->num_rows > 0) {
+  // output data of each row
+  while($row_star = $result_star->fetch_assoc()) {
+  
+  
+         ?>
+<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+              <img src="../img/send_money/<?php echo $row_star["img_send"]; ?>" style="height: 50px; alt="User Avatar" class="img-size-50 mr-3 img-circle" >
               <div class="media-body">
                 <h3 class="dropdown-item-title">
-                  Brad Diesel
+                   <?php echo $row_star["user"]; ?>
                   <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
                 </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                <p class="text-sm">ห้อง <?php echo $row_star["room"]; ?></p>
+                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> <?php echo $row_star["date_bill"]; ?></p>
               </div>
             </div>
             <!-- Message End -->
           </a>
+        <?php }
+} ?>
+        
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
+         
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
+         
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
         </div>
@@ -241,25 +228,63 @@ if (isset($_GET["key"]) and $_GET["key"] == 1) {
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
+                <a href="./add_bill.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>ChartJS</p>
+                  <p>ป้อนค่าน้ำ ค่าไฟ</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link">
+                <a href="./approve.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Flot</p>
+                  <p>แจ้งเตือนการชำระเงิน</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="pages/charts/inline.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Inline</p>
+                  <p>การกำหนดสิทธิ์</p>
                 </a>
               </li>
             </ul>
           </li>
+           <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                ตั้งค่าหอพัก
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="pages/charts/chartjs.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>หน้าเว็ป</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/charts/flot.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>กฎระเบียบ</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/charts/inline.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>การติดต่อ</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+           <li class="nav-item has-treeview">
+            <a href="../member/logout.php"data-nav-section="logout" onClick="return confirm('คุณต้องการออกจากระบบหรือไม่ ?');">
+              <i class="fa fa-sign-out" style="font-size:24px">
+             logout
+              </i>
+             
+            </a>
+            </li>
+         
          
         </ul>
       </nav>

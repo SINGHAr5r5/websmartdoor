@@ -1,12 +1,45 @@
 <?php
 session_start();
 require_once('../connect.php');
+try {
+  if (isset($_POST["input_name"]) and $_POST["input_name"] != '') {
+$date_add = date("Y-m-d");
+    $pic_tmp = $_FILES['imgInp']['tmp_name'];  //เอาไฟล์ temporary ไปเก็บที่ตัวแปร $pic_tmp
+    $pic_name = $_FILES['imgInp']['name'];    //เอาชื่อไฟล์ ไปเก็บที่ตัวแปร $pic_name
+    if ($pic_name <> "") {
+      $rename = "img_" . date('dmYHis') . "_sen" . substr($pic_name, -4);
+    }
+
+    if (move_uploaded_file($_FILES["imgInp"]["tmp_name"], "../img/send_money/" . $rename)) {
+
+      $sql = "INSERT INTO send_money (user,room,month_send,date_bill,img_send,status_send)
+VALUES ('".$_SESSION["user_session"]."','".$_SESSION["room_session"]."','" . $_POST["input_name"] . "','$date_add', '" . $rename . "','1')";
+
+      if ($conn->query($sql) === TRUE) {
+
+      } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+      }
+    }
+	$sql_bill = "UPDATE add_bill SET status_bill='2',user='".$_SESSION["user_session"]."',date_pay='$date_add' WHERE id_bill ='" . $_POST["input_name"] . "' ";
+
+	if ($conn->query($sql_bill) === TRUE) {
+	  
+	}
+
+
+
+  }
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
 ?>
+
 
 <!DOCTYPE HTML>
 <html>
 	<head>
-	<meta charset="utf-8" >
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Jackson Template</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,6 +57,8 @@ require_once('../connect.php');
 	<meta name="twitter:image" content="" />
 	<meta name="twitter:url" content="" />
 	<meta name="twitter:card" content="" />
+
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	
 
 	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -47,6 +82,10 @@ require_once('../connect.php');
 	<link rel="stylesheet" href="css/owl.theme.default.min.css">
 	<!-- Theme style  -->
 	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+	<link rel="stylesheet" type="text/css" href="css/singha.css">
 
 	<!-- Modernizr JS -->
 	<script src="js/modernizr-2.6.2.min.js"></script>
@@ -54,6 +93,24 @@ require_once('../connect.php');
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
+<style>
+	.col-md-6.qr {
+
+text-align: center;
+}
+.col-md-6.bill {
+    text-align: right;
+}
+.col-md-6.five {
+    text-align: left;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+
+</style>
 
 	</head>
 	<body>
@@ -63,20 +120,21 @@ require_once('../connect.php');
 		<aside id="colorlib-aside" role="complementary" class="border js-fullheight">
 			<div class="text-center">
 				<div class="author-img" style="background-image: url(../img/<?php echo $_SESSION["img_session"] ?>);"></div>
-				<h1 id="colorlib-logo"><a href="index.php"><?php echo $_SESSION["user_session"] ?></a></h1>
+				
+				<h1 id="colorlib-logo"><a href="index.php"><?php echo $_SESSION["user_session"]; ?></a></h1>
 				<span class="position"><a href="#">Smart Door</a> ...s</span>
 			</div>
 			<nav id="colorlib-main-menu" role="navigation" class="navbar">
 				<div id="navbar" class="collapse">
 					<ul>
 						<li class="active"><a href="#" data-nav-section="home">Home</a></li>
-						<li><a href="#" data-nav-section="about">About</a></li>
-						<li><a href="#" data-nav-section="services">Services</a></li>
-						<li><a href="#" data-nav-section="skills">Skills</a></li>
-						<li><a href="#" data-nav-section="education">Education</a></li>
-						<li><a href="#" data-nav-section="experience">Experience</a></li>
+						<li><a href="#" data-nav-section="about">ข้อมูลส่วนตัว</a></li>
+						<li><a href="#" data-nav-section="services">ค่าใช้จ่าย</a></li>
+						<li><a href="#" data-nav-section="skills">หลักฐานการชำระเงิน</a></li>
+						<li><a href="#" data-nav-section="education">ข้อปฏิบัติการพักอาศัย</a></li>
+						<!-- <li><a href="#" data-nav-section="experience">Experience</a></li>
 						<li><a href="#" data-nav-section="work">Work</a></li>
-						<li><a href="#" data-nav-section="blog">Blog</a></li>
+						<li><a href="#" data-nav-section="blog">Blog</a></li> -->
 						<li><a href="#" data-nav-section="contact">Contact</a></li>
 						
 					</ul>
@@ -103,16 +161,16 @@ require_once('../connect.php');
 			<section id="colorlib-hero" class="js-fullheight" data-section="home">
 				<div class="flexslider js-fullheight">
 					<ul class="slides">
-				   	<li style="background-image: url(images/img_bg_1.jpg);">
+				   	<li style="background-image: url(../img/mansion/stadihome.jpg);">
 				   		<div class="overlay"></div>
 				   		<div class="container-fluid">
 				   			<div class="row">
 					   			<div class="col-md-6 col-md-offset-3 col-md-pull-3 col-sm-12 col-xs-12 js-fullheight slider-text">
 					   				<div class="slider-text-inner js-fullheight">
 					   					<div class="desc">
-						   					<h1>Hi! <br>I'm Jackson</h1>
-						   					<h2>100% html5 bootstrap templates Made by <a href="https://colorlib.com/" target="_blank">colorlib.com</a></h2>
-												<p><a class="btn btn-primary btn-learn">Download CV <i class="icon-download4"></i></a></p>
+						   					<h1>หอพัก <br>สตาร์ดิโฮม</h1>
+						   					<h2>ปลอดภัย 100%<a href="https://colorlib.com/" target="_blank">colorlib.com</a></h2>
+												<!-- <p><a class="btn btn-primary btn-learn">Download CV <i class="icon-download4"></i></a></p> -->
 											</div>
 					   				</div>
 					   			</div>
@@ -147,13 +205,52 @@ require_once('../connect.php');
 								<div class="col-md-12">
 									<div class="about-desc">
 										<span class="heading-meta">About Us</span>
-										<h2 class="colorlib-heading">Who Am I?</h2>
-										<p><strong>Hi I'm Jackson Ford</strong> On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country.</p>
-										<p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
+										<h2 class="colorlib-heading">ข้อมูลส่วนตัว</h2>
+
+										<?php $sql_us = "SELECT * FROM member where user='".$_SESSION["user_session"]."'";
+$result_us = $conn->query($sql_us);
+
+if ($result_us->num_rows > 0) {
+  // output data of each row
+  while($row_us = $result_us->fetch_assoc()) {
+    
+?>
+										<form class="contact100-form validate-form">
+				
+
+				<div class="wrap-input100 validate-input" data-validate="Name is required">
+					<span class="label-input100">ชื่อ-นามสกุล</span>
+					<input class="input100" type="text" name="name" placeholder="Name..." value="<?php echo $row_us["user"]; ?>">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+					<span class="label-input100">อีเมล</span>
+					<input class="input100" type="text" name="email" placeholder="Email addess..." value="<?php echo $row_us["email_user"]; ?>">
+					<span class="focus-input100"></span>
+					
+				</div>
+
+				<div class="wrap-input100">
+					<span class="label-input100">เบร์โทรศัพท์</span>
+					<input class="input100" type="text" name="phone" placeholder="Phone Number..." value="<?php echo $row_us["phone_user"]; ?>">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate = "Message is required">
+					<span class="label-input100">Message</span>
+					<textarea class="input100" name="message" placeholder="Questions/Comments..."></textarea>
+					<span class="focus-input100"></span>
+				</div>
+
+            </form>
+  <?php }} ?>
+
+
 									</div>
 								</div>
 							</div>
-							<div class="row">
+							<!-- <div class="row">
 								<div class="col-md-3 animate-box" data-animate-effect="fadeInLeft">
 									<div class="services color-1">
 										<span class="icon2"><i class="icon-bulb"></i></span>
@@ -178,15 +275,15 @@ require_once('../connect.php');
 										<h3>Application</h3>
 									</div>
 								</div>
-							</div>
-							<div class="row">
+							</div> -->
+							<!-- <div class="row">
 								<div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
 									<div class="hire">
 										<h2>I am happy to know you <br>that 300+ projects done sucessfully!</h2>
 										<a href="#" class="btn-hire">Hire me</a>
 									</div>
 								</div>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
@@ -199,81 +296,117 @@ require_once('../connect.php');
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
 							<span class="heading-meta">What I do?</span>
-							<h2 class="colorlib-heading">Here are some of my expertise</h2>
+							<h2 class="colorlib-heading">ค่าใช้จ่าย</h2>
 						</div>
 					</div>
 					<div class="row row-pt-md">
-						<div class="col-md-4 text-center animate-box">
-							<div class="services color-1">
-								<span class="icon">
-									<i class="icon-bulb"></i>
-								</span>
-								<div class="desc">
-									<h3>Innovative Ideas</h3>
-									<p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 text-center animate-box">
-							<div class="services color-2">
-								<span class="icon">
-									<i class="icon-data"></i>
-								</span>
-								<div class="desc">
-									<h3>Software</h3>
-									<p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 text-center animate-box">
-							<div class="services color-3">
-								<span class="icon">
-									<i class="icon-phone3"></i>
-								</span>
-								<div class="desc">
-									<h3>Application</h3>
-									<p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 text-center animate-box">
-							<div class="services color-4">
-								<span class="icon">
-									<i class="icon-layers2"></i>
-								</span>
-								<div class="desc">
-									<h3>Graphic Design</h3>
-									<p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 text-center animate-box">
-							<div class="services color-5">
-								<span class="icon">
-									<i class="icon-data"></i>
-								</span>
-								<div class="desc">
-									<h3>Software</h3>
-									<p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 text-center animate-box">
-							<div class="services color-6">
-								<span class="icon">
-									<i class="icon-phone3"></i>
-								</span>
-								<div class="desc">
-									<h3>Application</h3>
-									<p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
-								</div>
-							</div>
-						</div>
+					<?php 
+			
+
+					$sql_pay = "SELECT * FROM add_bill where member_bill='".$_SESSION["id_session"]."'";
+$result_pay = $conn->query($sql_pay);
+
+
+if ($result_pay->num_rows > 0) {
+	
+  // output data of each row
+  while($row_pay = $result_pay->fetch_assoc()) {
+	  
+
+?>  
+ <?php }} ?>
+
+ <div class="row">
+ <div class="col-md-12 pay">
+ <?php 
+			
+			$sql_pay = "SELECT * FROM add_bill where member_bill='".$_SESSION["id_session"]."'";
+$result_pay = $conn->query($sql_pay);
+
+
+if ($result_pay->num_rows > 0) {
+
+// output data of each row
+while($row_pay = $result_pay->fetch_assoc()) {
+	
+?>  
+
+<div class="w3-content w3-display-container">
+<div class="mySlides"style="width:100%"> 
+
+<div class="col-md-6 bill">
+	<div class="col-md-12">
+	<div class="col-md-12">
+		<h1>ค่าไฟเดือน <?php  ?></h1>
+	</div>
+	<div class="col-md-6 five">
+<p>หน่วยค่าไฟเดือนนี้</p>
+		</div>
+		<div class="col-md-6">
+	<p><?php echo $row_pay["electricity_bill"]; ?> หน่วย</p>
+		</div>
+		<div class="col-md-6 five">
+<p>หน่วยค่าไฟเดือนก่อน</p>
+		</div>
+		<div class="col-md-6">
+	<p><?php echo $row_pay["bill_old"]; ?> หน่วย</p>
+		</div>
+		<div class="col-md-6 five">
+<p>ค่าไฟฟ้า</p>
+		</div>
+		<div class="col-md-6">
+<p> 		<?php $sum=($row_pay["electricity_bill"]-$row_pay["bill_old"]);$total=$sum*5;
+echo $total; ?> บาท</p>
+		</div>
+		<div class="col-md-6 five">
+<p>ค่าน้ำ</p>
+		</div>
+		<div class="col-md-6">
+			<p> <?php echo $row_pay["water_bill"]; ?> บาท</p>
+		
+		</div>
+		<div class="col-md-6">
+<p></p>
+		</div>
+		<div class="col-md-6">
+			<p>รวม <?php $end_total=$total+$row_pay["water_bill"]; echo $end_total; ?> บาท </p>
+			
+		</div>
+
+	</div>
+
+
+	 
+
+
+
+  </div>
+ <div class="col-md-6 qr">
+ <?php 
+require_once("./PromptPay/lib/PromptPayQR.php");
+$PromptPayQR = new PromptPayQR(); // new object
+$PromptPayQR->size = 6; // Set QR code size to 8
+$PromptPayQR->id = '0966791113'; // PromptPay ID
+$PromptPayQR->amount = $end_total; // Set amount (not necessary)
+echo '<img src="' . $PromptPayQR->generate() . '" />';
+?>
+</div>
+<?php }} ?>
+</div>
+
+
+  <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+  <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+</div>
+
+ </div>
+
+ 
 					</div>
 				</div>
 			</section>
 			
-			<div id="colorlib-counter" class="colorlib-counters" style="background-image: url(images/cover_bg_1.jpg);" data-stellar-background-ratio="0.5">
+			<div id="colorlib-counter" class="colorlib-counters" style="background-image: url(../img/mansion/stadihome.jpg);" data-stellar-background-ratio="0.5">
 				<div class="overlay"></div>
 				<div class="colorlib-narrow-content">
 					<div class="row">
@@ -304,78 +437,66 @@ require_once('../connect.php');
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
 							<span class="heading-meta">My Specialty</span>
-							<h2 class="colorlib-heading animate-box">My Skills</h2>
+							<h2 class="colorlib-heading animate-box">ส่งหลักฐานการชำระเงิน</h2>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
-							<p>The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn’t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.</p>
-						</div>
+						
+						
+						
 						<div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
-							<div class="progress-wrap">
-								<h3>Photoshop</h3>
-								<div class="progress">
-								 	<div class="progress-bar color-1" role="progressbar" aria-valuenow="75"
-								  	aria-valuemin="0" aria-valuemax="100" style="width:75%">
-								    <span>75%</span>
-								  	</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInRight">
-							<div class="progress-wrap">
-								<h3>jQuery</h3>
-								<div class="progress">
-								 	<div class="progress-bar color-2" role="progressbar" aria-valuenow="60"
-								  	aria-valuemin="0" aria-valuemax="100" style="width:60%">
-								    <span>60%</span>
-								  	</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
-							<div class="progress-wrap">
-								<h3>HTML5</h3>
-								<div class="progress">
-								 	<div class="progress-bar color-3" role="progressbar" aria-valuenow="85"
-								  	aria-valuemin="0" aria-valuemax="100" style="width:85%">
-								    <span>85%</span>
-								  	</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInRight">
-							<div class="progress-wrap">
-								<h3>CSS3</h3>
-								<div class="progress">
-								 	<div class="progress-bar color-4" role="progressbar" aria-valuenow="90"
-								  	aria-valuemin="0" aria-valuemax="100" style="width:90%">
-								    <span>90%</span>
-								  	</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
-							<div class="progress-wrap">
-								<h3>WordPress</h3>
-								<div class="progress">
-								 	<div class="progress-bar color-5" role="progressbar" aria-valuenow="70"
-								  	aria-valuemin="0" aria-valuemax="100" style="width:70%">
-								    <span>70%</span>
-								  	</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInRight">
-							<div class="progress-wrap">
-								<h3>SEO</h3>
-								<div class="progress">
-								 	<div class="progress-bar color-6" role="progressbar" aria-valuenow="80"
-								  	aria-valuemin="0" aria-valuemax="100" style="width:80%">
-								    <span>80%</span>
-								  	</div>
-								</div>
-							</div>
+						<form role="form" name="send_money" action="index.php" method="POST" enctype="multipart/form-data">
+                    <div class="card-body">
+                      <div class="form-group">
+                     
+						<div class="col-sm-6">
+                      <!-- select -->
+                
+					</div>
+					<div class="col-md-12 form-group">
+                    <label for="exampleInputPassword1">ชำระของเดือน</label>
+                    <select class="form-control" name="input_name" id="input_name">
+                          <option value="-">เลือกเดือนที่ชำระ</option>
+                     
+                              <?php
+                                          $status_sql = "SELECT * FROM add_bill where member_bill='".$_SESSION["id_session"]."' AND status_bill='1' ";
+                                          $status_result = $conn->query($status_sql);
+
+                                          if ($status_result->num_rows > 0) {
+                                            $i = 1;
+                                            while ($status_row = $status_result->fetch_assoc()) {
+
+                                          ?> 
+                                <option value="<?php echo $status_row["id_bill"]; ?>"><?php echo $status_row["date_add"]; ?>
+                            </option>
+                        <?php }
+                                          } ?>
+                          </select>
+                  </div>
+                      </div>
+
+                      <div class="form-group">
+						 
+                        <label for="exampleInputFile">อัพโหลดรูปภาพหลักฐานการชำระเงิน</label>
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="imgInp" name="imgInp">
+                            <label class="custom-file-label" for="exampleInputFile">เลือกรูปภาพ</label>
+                          </div>
+                          <div class="input-group-append">
+                            <span class="input-group-text" id=""></span>
+                          </div>
+                        </div>
+                      </div>
+                     
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary">บันทึก</button>
+                    </div>
+                  </form>
+		
 						</div>
 					</div>
 				</div>
@@ -385,8 +506,8 @@ require_once('../connect.php');
 				<div class="colorlib-narrow-content">
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-							<span class="heading-meta">Education</span>
-							<h2 class="colorlib-heading animate-box">Education</h2>
+							<span class="heading-meta">ข้อปฏิบัติการพักอาศัย</span>
+							<h2 class="colorlib-heading animate-box">ข้อปฏิบัติการพักอาศัย</h2>
 						</div>
 					</div>
 					<div class="row">
@@ -396,18 +517,36 @@ require_once('../connect.php');
 									<div class="panel panel-default">
 									    <div class="panel-heading" role="tab" id="headingOne">
 									        <h4 class="panel-title">
-									            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Master Degree Graphic Design
+									            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">กฎระเบียบ
 									            </a>
 									        </h4>
 									    </div>
 									    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
 									         <div class="panel-body">
 									            <div class="row">
-										      		<div class="col-md-6">
-										      			<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
+										      		<div class="col-md-12">
+										      			<p>1.ห้ามส่งเสียงดังสร้างความรบกวน ก่อความรำคาญให้กับผู้พักอาศัยในหอพัก และห้ามทะเลาะวิวาทภายในหอพัก</p>
+														  <p>2.ห้ามลักขโมยทรัพย์สิน หรือสิ่งของใดๆ ภายในหอพักหรือของผู้ที่พักอาศัยในหอพัก</p>
+														  <p>3.ห้ามเสพอบายมุขภายในหอพัก เช่น บุหรี่ สุรา ยาเสพติด การพนัน ฯลฯ</p>
+														  <p>4.ห้ามนำนักศึกษาหรือบุคคลภายนอกเข้าพักอาศัยในหอพักโดยไม่ได้รับอนุญาตจากอาจารย์ที่ปรึกษาหอพักและสำนักงานหอพักโดยเด็ดขาด หากฝ่าฝืนจะถูกตัดสิทธิการเข้าพักอาศัยในหอพัก และถูกยึดเงินค่าประกันหอพัก</p>
+														  <p>5.ไม่อนุญาตให้นำนักศึกษาหรือบุคคลภายนอกขึ้นหอพัก</p>
+														  <p>6.นักศึกษาหรือบุคคลภายนอกที่เข้าพักชั่วคราวจะต้องออกจากหอพักไม่เกินเวลา 12.00 น. ของวันถัดไป</p>
+														  <p>7.นักศึกษาต้องรักษาความสะอาดห้องพัก ของใช้ส่วนรวม และไม่วางสิ่งของไว้หน้าห้องพัก</p>
+														  <p>8.ห้ามครอบครองวัตถุอันตราย อันจะนำมาซึ่งความเสียหายและเกิดอันตรายแก่ทรัพย์สินของหอพัก และผู้อาศัยในหอพัก เช่น อาวุธ วัตถุระเบิด แก๊ส เชื้อเพลิง ฯลฯ</p>
+														  <p>9.ห้ามทำลายทรัพย์สินหอพัก เช่น รื้อถอน ดัดแปลง ต่อเติม เคลื่อนย้ายอุปกรณ์ ฯลฯ  กรณีเจาะ-ตอกตะปูฝาผนัง ประตู เพดาน ฯลฯ จะถูกปรับจุดละ 300 บาท และหากทำทรัพย์สินเสียหายจะต้องชำระค่าปรับตามราคาของทรัพย์สินนั้น</p>
+														  <p>10.ห้ามโยน ขว้างปา หรือทิ้งสิ่งของใดลงมาจากห้องพัก</p>
+														  <p>11.ห้ามนำอุปกรณ์เครื่องใช้ไฟฟ้าที่ก่อให้เกิดอันตรายได้ง่ายมาใช้ในห้องพัก เช่น ขดลวดต้มน้ำ เตา ไฟฟ้า (Hot Plate) ฯลฯ</p>
+														  <p>12.ห้ามประกอบอาหารในหอพัก และห้ามนำภาชนะของร้านค้าขึ้นหอพัก</p>
+														  <p>13.ห้ามตากผ้าและวางพาดสิ่งของต่างๆ บนขอบระเบียงหลังห้องพัก</p>
+														  <p>14.ห้ามนำสัตว์เลี้ยงทุกชนิดมาเลี้ยงไว้ในบริเวณหอพัก / ห้องพัก</p>
+														  <p>15.ห้ามนักศึกษานอนค้างคืนภายนอกหอพัก ก่อนได้รับอนุญาตจากอาจารย์ที่ปรึกษาหอพัก ทั้งนี้ นักศึกษาชายและหญิง
+จะต้องกลับเข้าหอพักภายในเวลา 24.00 น.</p>
+														  <p>16.นักศึกษาจะต้องไม่ฝ่าฝืนคำสั่งและคำตักเตือนของอาจารย์ที่ปรึกษาหอพัก กรรมการนักศึกษาหอพัก และเจ้าหน้าที่หอพัก รวมทั้งจะต้องไม่ประพฤติผิดวินัยนักศึกษาตามข้อบังคับของมหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี ว่าด้วยวินัย
+นักศึกษา</p>
+														  <p>17.นักศึกษาต้องไม่ฝ่าฝืนกฎระเบียบอื่นๆ ของหอพัก</p>
 										      		</div>
 										      		<div class="col-md-6">
-										      			<p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+										      			<p></p>
 										      		</div>
 										      	</div>
 									         </div>
@@ -416,7 +555,7 @@ require_once('../connect.php');
 									<div class="panel panel-default">
 									    <div class="panel-heading" role="tab" id="headingTwo">
 									        <h4 class="panel-title">
-									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Bachelor Degree of Computer Science
+									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">สัญญาการเช่าหอพัก
 									            </a>
 									        </h4>
 									    </div>
@@ -433,7 +572,7 @@ require_once('../connect.php');
 									<div class="panel panel-default">
 									    <div class="panel-heading" role="tab" id="headingThree">
 									        <h4 class="panel-title">
-									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Diploma in Information Technology
+									            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">ติดต่อแจ้งเหตุ
 									            </a>
 									        </h4>
 									    </div>
@@ -473,253 +612,6 @@ require_once('../connect.php');
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-
-			<section class="colorlib-experience" data-section="experience">
-				<div class="colorlib-narrow-content">
-					<div class="row">
-						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-							<span class="heading-meta">Experience</span>
-							<h2 class="colorlib-heading animate-box">Work Experience</h2>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-				         <div class="timeline-centered">
-					         <article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
-					            <div class="timeline-entry-inner">
-
-					               <div class="timeline-icon color-1">
-					                  <i class="icon-pen2"></i>
-					               </div>
-
-					               <div class="timeline-label">
-					                  <h2><a href="#">Full Stack Developer</a> <span>2017-2018</span></h2>
-					                  <p>Tolerably earnestly middleton extremely distrusts she boy now not. Add and offered prepare how cordial two promise. Greatly who affixed suppose but enquire compact prepare all put. Added forth chief trees but rooms think may.</p>
-					               </div>
-					            </div>
-					         </article>
-
-
-					         <article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-2">
-					                  <i class="icon-pen2"></i>
-					               </div>
-					               <div class="timeline-label">
-					               	<h2><a href="#">Front End Developer at Google Company</a> <span>2017-2018</span></h2>
-					                  <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
-					               </div>
-					            </div>
-					         </article>
-
-					         <article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-3">
-					                  <i class="icon-pen2"></i>
-					               </div>
-					               <div class="timeline-label">
-					               	<h2><a href="#">System Analyst</a> <span>2017-2018</span></h2>
-					                  <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
-					               </div>
-					            </div>
-					         </article>
-
-					         <article class="timeline-entry animate-box" data-animate-effect="fadeInTop">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-4">
-					                  <i class="icon-pen2"></i>
-					               </div>
-					               <div class="timeline-label">
-					               	<h2><a href="#">Creative Designer</a> <span>2017-2018</span></h2>
-					                  <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
-					               </div>
-					            </div>
-					         </article>
-
-					         <article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-5">
-					                  <i class="icon-pen2"></i>
-					               </div>
-					               <div class="timeline-label">
-					               	<h2><a href="#">UI/UX Designer at Envato</a> <span>2017-2018</span></h2>
-					                  <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
-					               </div>
-					            </div>
-					         </article>
-
-					         <article class="timeline-entry begin animate-box" data-animate-effect="fadeInBottom">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-none">
-					               </div>
-					            </div>
-					         </article>
-					      </div>
-					   </div>
-				   </div>
-				</div>
-			</section>
-
-			<section class="colorlib-work" data-section="work">
-				<div class="colorlib-narrow-content">
-					<div class="row">
-						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-							<span class="heading-meta">My Work</span>
-							<h2 class="colorlib-heading animate-box">Recent Work</h2>
-						</div>
-					</div>
-					<div class="row row-bottom-padded-sm animate-box" data-animate-effect="fadeInLeft">
-						<div class="col-md-12">
-							<p class="work-menu"><span><a href="#" class="active">Graphic Design</a></span> <span><a href="#">Web Design</a></span> <span><a href="#">Software</a></span> <span><a href="#">Apps</a></span></p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
-							<div class="project" style="background-image: url(images/img-1.jpg);">
-								<div class="desc">
-									<div class="con">
-										<h3><a href="work.php">Work 01</a></h3>
-										<span>Website</span>
-										<p class="icon">
-											<span><a href="#"><i class="icon-share3"></i></a></span>
-											<span><a href="#"><i class="icon-eye"></i> 100</a></span>
-											<span><a href="#"><i class="icon-heart"></i> 49</a></span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInRight">
-							<div class="project" style="background-image: url(images/img-2.jpg);">
-								<div class="desc">
-									<div class="con">
-										<h3><a href="work.php">Work 02</a></h3>
-										<span>Animation</span>
-										<p class="icon">
-											<span><a href="#"><i class="icon-share3"></i></a></span>
-											<span><a href="#"><i class="icon-eye"></i> 100</a></span>
-											<span><a href="#"><i class="icon-heart"></i> 49</a></span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInTop">
-							<div class="project" style="background-image: url(images/img-3.jpg);">
-								<div class="desc">
-									<div class="con">
-										<h3><a href="work.php">Work 03</a></h3>
-										<span>Illustration</span>
-										<p class="icon">
-											<span><a href="#"><i class="icon-share3"></i></a></span>
-											<span><a href="#"><i class="icon-eye"></i> 100</a></span>
-											<span><a href="#"><i class="icon-heart"></i> 49</a></span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInBottom">
-							<div class="project" style="background-image: url(images/img-4.jpg);">
-								<div class="desc">
-									<div class="con">
-										<h3><a href="work.php">Work 04</a></h3>
-										<span>Application</span>
-										<p class="icon">
-											<span><a href="#"><i class="icon-share3"></i></a></span>
-											<span><a href="#"><i class="icon-eye"></i> 100</a></span>
-											<span><a href="#"><i class="icon-heart"></i> 49</a></span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
-							<div class="project" style="background-image: url(images/img-5.jpg);">
-								<div class="desc">
-									<div class="con">
-										<h3><a href="work.php">Work 05</a></h3>
-										<span>Graphic, Logo</span>
-										<p class="icon">
-											<span><a href="#"><i class="icon-share3"></i></a></span>
-											<span><a href="#"><i class="icon-eye"></i> 100</a></span>
-											<span><a href="#"><i class="icon-heart"></i> 49</a></span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInRight">
-							<div class="project" style="background-image: url(images/img-6.jpg);">
-								<div class="desc">
-									<div class="con">
-										<h3><a href="work.php">Work 06</a></h3>
-										<span>Web Design</span>
-										<p class="icon">
-											<span><a href="#"><i class="icon-share3"></i></a></span>
-											<span><a href="#"><i class="icon-eye"></i> 100</a></span>
-											<span><a href="#"><i class="icon-heart"></i> 49</a></span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12 animate-box">
-							<p><a href="#" class="btn btn-primary btn-lg btn-load-more">Load more <i class="icon-reload"></i></a></p>
-						</div>
-					</div>
-				</div>
-			</section>
-
-			<section class="colorlib-blog" data-section="blog">
-				<div class="colorlib-narrow-content">
-					<div class="row">
-						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-							<span class="heading-meta">Read</span>
-							<h2 class="colorlib-heading">Recent Blog</h2>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-4 col-sm-6 animate-box" data-animate-effect="fadeInLeft">
-							<div class="blog-entry">
-								<a href="blog.php" class="blog-img"><img src="images/blog-1.jpg" class="img-responsive" alt="HTML5 Bootstrap Template by colorlib.com"></a>
-								<div class="desc">
-									<span><small>April 14, 2018 </small> | <small> Web Design </small> | <small> <i class="icon-bubble3"></i> 4</small></span>
-									<h3><a href="blog.php">Renovating National Gallery</a></h3>
-									<p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-6 animate-box" data-animate-effect="fadeInRight">
-							<div class="blog-entry">
-								<a href="blog.php" class="blog-img"><img src="images/blog-2.jpg" class="img-responsive" alt="HTML5 Bootstrap Template by colorlib.com"></a>
-								<div class="desc">
-									<span><small>April 14, 2018 </small> | <small> Web Design </small> | <small> <i class="icon-bubble3"></i> 4</small></span>
-									<h3><a href="blog.php">Wordpress for a Beginner</a></h3>
-									<p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-6 animate-box" data-animate-effect="fadeInLeft">
-							<div class="blog-entry">
-								<a href="blog.php" class="blog-img"><img src="images/blog-3.jpg" class="img-responsive" alt="HTML5 Bootstrap Template by colorlib.com"></a>
-								<div class="desc">
-									<span><small>April 14, 2018 </small> | <small> Inspiration </small> | <small> <i class="icon-bubble3"></i> 4</small></span>
-									<h3><a href="blog.php">Make website from scratch</a></h3>
-									<p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12 animate-box">
-							<p><a href="#" class="btn btn-primary btn-lg btn-load-more">Load more <i class="icon-reload"></i></a></p>
 						</div>
 					</div>
 				</div>
@@ -782,8 +674,7 @@ require_once('../connect.php');
 											<input type="submit" class="btn btn-primary btn-send-message" value="Send Message">
 										</div>
 									</form>
-								</div>
-								
+								</div>	
 							</div>
 						</div>
 					</div>
@@ -812,6 +703,27 @@ require_once('../connect.php');
 	
 	<!-- MAIN JS -->
 	<script src="js/main.js"></script>
+	<script src="js/singha.js"></script>
+	
+	<script>
+var slideIndex = 1;
+showDivs(slideIndex);
+
+function plusDivs(n) {
+  showDivs(slideIndex += n);
+}
+
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  x[slideIndex-1].style.display = "block";  
+}
+</script>
 
 	</body>
 </html>

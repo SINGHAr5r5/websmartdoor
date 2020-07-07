@@ -48,10 +48,28 @@ if ($conn->query($sql) === TRUE) {
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
   .t2 {
     float: right;
 }
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button2 {background-color: #008CBA;} /* Blue */
+.button3 {background-color: #f44336;} /* Red */ 
+.button4 {background-color: #e7e7e7; color: black;} /* Gray */ 
+.button5 {background-color: #555555;} /* Black */
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -202,7 +220,7 @@ if ($conn->query($sql) === TRUE) {
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
+          <li class="nav-item has-treeview ">
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
@@ -212,7 +230,7 @@ if ($conn->query($sql) === TRUE) {
             </a>
             <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="./index.php" class="nav-link active">
+                <a href="./index.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>สมาชิก</p>
                 </a>
@@ -226,7 +244,7 @@ if ($conn->query($sql) === TRUE) {
               
             </ul>
           </li>
-          <li class="nav-item has-treeview">
+          <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
@@ -236,25 +254,62 @@ if ($conn->query($sql) === TRUE) {
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
+                <a href="./add_bill.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>ChartJS</p>
+                  <p>ป้อนค่าน้ำ ค่าไฟ</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link">
+                <a href="./approve.php" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Flot</p>
+                  <p>แจ้งเตือนการชำระเงิน</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="pages/charts/inline.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Inline</p>
+                  <p>การกำหนดสิทธิ์</p>
                 </a>
               </li>
             </ul>
           </li>
+           <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                ตั้งค่าหอพัก
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="pages/charts/chartjs.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>หน้าเว็ป</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/charts/flot.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>กฎระเบียบ</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/charts/inline.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>การติดต่อ</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="../member/logout.php"data-nav-section="logout" onClick="return confirm('คุณต้องการออกจากระบบหรือไม่ ?');">
+              <i class="fa fa-sign-out" style="font-size:24px">
+             logout
+              </i>
+             
+            </a>
+            </li>
          
         </ul>
       </nav>
@@ -383,7 +438,7 @@ $end_total=$total+$row_pay["water_bill"]; echo $end_total; ?> บาท </p>
                       <td >
                           
                           <form action="approve.php?id_add=<?php echo $row_showbill["month_send"]; ?>" method="post">
-                          <button class="button button3"> อนุมัติ</button>
+                          <button class="button">อนุมัติ</button>
                             </form>
                           
                       </td>
@@ -391,7 +446,7 @@ $end_total=$total+$row_pay["water_bill"]; echo $end_total; ?> บาท </p>
                           
                           
                             <form action="approve.php?id_del=<?php echo $row_showbill["month_send"]; ?>" method="post">
-                          <button class="btn btn-danger btn-sm" > ไม่อนุมัติ </button>
+                          <button class="button button3">ไม่อนุมัติ</button>
                             </form>
                       </td>
                   </tr>

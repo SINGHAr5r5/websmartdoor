@@ -161,16 +161,16 @@ text-align: center;
 			<section id="colorlib-hero" class="js-fullheight" data-section="home">
 				<div class="flexslider js-fullheight">
 					<ul class="slides">
-				   	<li style="background-image: url(images/img_bg_1.jpg);">
+				   	<li style="background-image: url(../img/mansion/stadihome.jpg);">
 				   		<div class="overlay"></div>
 				   		<div class="container-fluid">
 				   			<div class="row">
 					   			<div class="col-md-6 col-md-offset-3 col-md-pull-3 col-sm-12 col-xs-12 js-fullheight slider-text">
 					   				<div class="slider-text-inner js-fullheight">
 					   					<div class="desc">
-						   					<h1>Hi! <br>I'm Jackson</h1>
-						   					<h2>100% html5 bootstrap templates Made by <a href="https://colorlib.com/" target="_blank">colorlib.com</a></h2>
-												<p><a class="btn btn-primary btn-learn">Download CV <i class="icon-download4"></i></a></p>
+						   					<h1>หอพัก <br>สตาร์ดิโฮม</h1>
+						   					<h2>ปลอดภัย 100%<a href="https://colorlib.com/" target="_blank">colorlib.com</a></h2>
+												<!-- <p><a class="btn btn-primary btn-learn">Download CV <i class="icon-download4"></i></a></p> -->
 											</div>
 					   				</div>
 					   			</div>
@@ -250,7 +250,7 @@ if ($result_us->num_rows > 0) {
 									</div>
 								</div>
 							</div>
-							<div class="row">
+							<!-- <div class="row">
 								<div class="col-md-3 animate-box" data-animate-effect="fadeInLeft">
 									<div class="services color-1">
 										<span class="icon2"><i class="icon-bulb"></i></span>
@@ -275,15 +275,15 @@ if ($result_us->num_rows > 0) {
 										<h3>Application</h3>
 									</div>
 								</div>
-							</div>
-							<div class="row">
+							</div> -->
+							<!-- <div class="row">
 								<div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
 									<div class="hire">
 										<h2>I am happy to know you <br>that 300+ projects done sucessfully!</h2>
 										<a href="#" class="btn-hire">Hire me</a>
 									</div>
 								</div>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
@@ -406,7 +406,7 @@ echo '<img src="' . $PromptPayQR->generate() . '" />';
 				</div>
 			</section>
 			
-			<div id="colorlib-counter" class="colorlib-counters" style="background-image: url(images/cover_bg_1.jpg);" data-stellar-background-ratio="0.5">
+			<div id="colorlib-counter" class="colorlib-counters" style="background-image: url(../img/mansion/stadihome.jpg);" data-stellar-background-ratio="0.5">
 				<div class="overlay"></div>
 				<div class="colorlib-narrow-content">
 					<div class="row">

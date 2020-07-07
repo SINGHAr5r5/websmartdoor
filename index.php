@@ -2,7 +2,7 @@
 session_start();
 ?>
 <?php
-require_once('../web/connect.php');
+require_once('./connect.php');
 if (isset($_GET["chk"]) and $_GET["chk"] == 'login') {
     //chk
     $sql = "SELECT * FROM member Where email_user='" . $_POST["email_user"] . "' or user='" . $_POST["email_user"] . "'  and pass='" . $_POST["pass"] . "' ";

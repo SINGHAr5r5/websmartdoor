@@ -62,15 +62,15 @@ body {
 </head>
 <body>
 <!-- partial:index.partial.html -->
-<div class="menu">
+<!-- <div class="menu">
   <ul class="mainmenu clearfix">
     <li class="menuitem">Well</li>
     <li class="menuitem">how</li>
     <li class="menuitem">about</li>
     <li class="menuitem">that?</li>
   </ul>
-</div>
-<button id="findpass">What's the password?</button>
+</div> -->
+<!-- s -->
 <form action="index.php?chk=login" method="POST">
 <div class="form">
   <div class="forceColor"></div>
